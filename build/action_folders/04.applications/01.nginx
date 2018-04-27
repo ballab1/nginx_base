@@ -1,0 +1,6 @@
+#!/bin/bash
+
+#usermod -u ${nginx['uid']} ${nginx['user']}
+#groupmod -g ${nginx['gid']} ${nginx['group']}
+
+mkdir -p "${WWW}"

@@ -1,0 +1,28 @@
+version: '3.5'
+
+services:
+    nginx:
+        build:
+            args:
+                CBF_VERSION: ${CBF_VERSION:-dev}
+                CONTAINER_NAME: nginx
+                CONTAINER_VERSION: 1.0.8
+                FROM_BASE: supervisord:${CONTAINER_TAG:-latest}
+            cache_from:
+                - alpine:3.6
+                - base_container:${CONTAINER_TAG:-latest}
+                - supervisord:${CONTAINER_TAG:-latest}
+            context: .
+            dockerfile: Dockerfile
+        container_name: nginx
+        environment:
+            DEBUG_TRACE: ${DEBUG_TRACE:-0}
+        hostname: nginx
+        image: nginx:${CONTAINER_TAG:-latest}
+        logging:
+            driver: json-file
+            options:
+                max-file: "3"
+                max-size: "10m"
+# only use when building a 'service container'
+#        restart: unless-stopped

@@ -1,0 +1,8 @@
+
+location ~ /\. {
+    deny  all;
+}
+
+location ~ /(libraries|templates) {
+    deny all;
+}
