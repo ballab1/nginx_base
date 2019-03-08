@@ -1,0 +1,6 @@
+listen 80;
+listen [::]:80 ipv6only=on;
+
+if ($request_method !~ ^(GET|HEAD|POST)$ ) {
+    return 405;
+}

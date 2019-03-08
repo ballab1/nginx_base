@@ -1,9 +1,13 @@
 version: '3.3'
 
+# this is a SAMPLE file. Do not use for build or deployments
+
+# use the following to restrict which OS this is built on
 # containerOS: alpine
 
 services:
     nginx-base:
+# build arguments, only needed for building
         build:
             args:
                 CBF_VERSION: ${CBF_VERSION:-}
@@ -26,8 +30,36 @@ services:
                 container.origin: $CONTAINER_ORIGIN
                 container.original.name: nginx-base
                 version.cbf: $CBF_VERSION
+# common arguments, for building and deploy 
         container_name: nginx-base
         environment:
             DEBUG_TRACE: ${DEBUG_TRACE:-0}
+#            PWD_PROTECTED: 'true'
+            SUPERVISORD_PASS_FILE: /run/secrets/supervisord.pwd
+            SUPERVISORD_USER: $CFG_USER
+#            WEB_USER_ID: $CFG_USER
+#            WEB_USER_PASS_FILE: /run/secrets/web_user.pwd
         hostname: nginx-base
         image: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/nginx-base/${NGINX_VERSION:-1.14.2}:${CONTAINER_TAG:-latest}
+# deploy arguments, not needed for building
+        logging:                              # limit size of logs @runtime so that we do not run out of space 
+            driver: json-file
+            options:
+                max-file: "3"
+                max-size: "10m"
+        ports:                                #ports exposed 
+           - 80:80
+           - 9001:9001
+        restart: unless-stopped               # only use when building a 'service container'
+        secrets:                              # references to 'secrets' section below 
+            - supervisord.pwd
+#            - web_user.pwd
+        volumes:
+            - ./vols/log:/var/log             # do not save aplication logs inside container 
+
+# secrets only needed for deploy
+secrets:                                      # location of secrets files in host filesystem 
+   supervisord.pwd:
+     file: ~/.inf/secrets/bobb.password
+#   user.pwd:
+#     file: ~/.inf/secrets/bobb.password

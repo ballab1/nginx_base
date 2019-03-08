@@ -1,0 +1,3 @@
+# Make site accessible from http://localhost/
+root   /var/www;
+index index.html index.htm;

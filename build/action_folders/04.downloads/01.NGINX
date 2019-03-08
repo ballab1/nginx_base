@@ -1,0 +1,15 @@
+# nginx
+
+declare -A NGINX=()
+NGINX['version']=${NGINX_VERSION:?}
+NGINX['dir']="/tmp/nginx-${NGINX['version']}"
+NGINX['file']="/tmp/nginx-${NGINX['version']}.tar.gz"
+NGINX['url']="https://nginx.org/download/nginx-${NGINX['version']}.tar.gz"
+NGINX['sha256_1.14.1']="bf09974130c0d41c0a811decc17a96ec2f58cdc8bbacb771de8d38c9ba14a4a4"
+NGINX['sha256_1.14.2']="002d9f6154e331886a2dd4e6065863c9c1cf8291ae97a1255308572c02be9797"
+NGINX['sha256_1.15.1']="c7206858d7f832b8ef73a45c9b8f8e436bcb1ee88db2bc85b8e438ecec9d5460"
+NGINX['sha256_1.15.3']="9391fb91c3e2ebd040a4e3ac2b2f0893deb6232edc30a8e16fcc9c3fa9d6be85"
+NGINX['sha256_1.15.4']="3324776c800d974ceae8797ab9102ca26a8c3656f5c6fb3f31f2cb1e719458e7"
+NGINX['sha256_1.15.5']="1a3a889a8f14998286de3b14cc1dd5b2747178e012d6d480a18aa413985dae6f"
+NGINX['sha256_1.15.6']="a3d8c67c2035808c7c0d475fffe263db8c353b11521aa7ade468b780ed826cc6"
+NGINX['sha256']="${NGINX['sha256_'${NGINX['version']}]}"

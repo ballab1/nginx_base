@@ -1,0 +1,6 @@
+# nginx build Packages
+
+declare -a OPTS=( '--virtual' '.buildDependencies' )
+declare -a PKGS=( gcc
+		  linux-headers
+		  make ) 

@@ -1,4 +1,0 @@
-# nginx Packages
-
-declare -a PKGS=( fcgiwrap
-                  nginx )
