@@ -1,0 +1,9 @@
+# nginx
+
+declare -A NGINX=(
+    ['version']=${NGINX_VERSION:-1.15.1}
+    ['dir']="/tmp/nginx-${NGINX['version']}"
+    ['file']="/tmp/nginx-${NGINX['version']}.tar.gz"
+    ['url']="https://nginx.org/download/nginx-${NGINX['version']}.tar.gz"
+    ['sha256']="c7206858d7f832b8ef73a45c9b8f8e436bcb1ee88db2bc85b8e438ecec9d5460"
+)

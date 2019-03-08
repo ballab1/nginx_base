@@ -1,0 +1,12 @@
+#!/bin/bash
+
+crf.copyFileToRuntime 'LIB' 'nginx_base.bashlib'
+
+declare -ar env_nginx=(
+    'NGINX_UID="${NGINX_UID:-$(nginx.UID)}"'
+    'NGINX_GID="${NGINX_GID:-$(nginx.GID)}"'
+    'USER="$WWW_UID"'
+)
+
+crf.removeFromRuntimeEnvironment 'USER'
+crf.updateRuntimeEnvironment "${env_nginx[@]}"  

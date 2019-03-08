@@ -1,0 +1,9 @@
+#!/bin/bash
+
+declare -A nginx=(
+    ['user']=${NGINX_USER:-nginx}
+    ['uid']=${NGINX_UID:-$(nginx.UID)}
+    ['group']=${NGINX_GROUP:-nginx}
+    ['gid']=${NGINX_GID:-$(nginx.GID)}
+    ['shell']=/bin/bash
+)

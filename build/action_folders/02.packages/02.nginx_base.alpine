@@ -1,0 +1,16 @@
+# nginx Packages
+
+declare -a PKGS=( fcgiwrap
+#                  freetype
+#                  geoip
+#                  libgcrypt
+#                  libgd
+#                  libgpg-error
+                  libintl
+#                  libjpeg-turbo
+#                  libpng
+#                  libwebp
+#                  libxml2
+#                  libxslt
+#                  nginx
+)

@@ -1,0 +1,39 @@
+#!/bin/bash
+#############################################################################
+
+function nginx.UID()
+{
+    local -r user_name="${1:-nginx}"
+    local -r default_uid=${2:-1001}
+    
+    lib.lookupId "$user_name" 'passwd' "$default_uid"
+}
+export -f nginx.UID
+
+#############################################################################
+function nginx.GID()
+{
+    local -r group_name="${1:-nginx}"
+    local -r default_gid=${2:-1001}
+    
+    lib.lookupId "$group_name" 'group' "$default_gid"
+}
+export -f nginx.GID 
+
+#############################################################################
+function nginx.updateConfig()
+{
+    local -r key="${1:?"Input parameter 'key' must be passed to 'function ${FUNCNAME[0]}()'"}" 
+    local -r val="${2:?"Input parameter 'val' must be passed to 'function ${FUNCNAME[0]}()'"}" 
+    local file="${3:?"Input parameter 'file' must be passed to 'function ${FUNCNAME[0]}()'"}" 
+
+    # check that we can apply update    
+    [ -e "$file" ] || file="/etc/nginx/conf.d/$file"
+    [ -e "$file" ] || trap.die "Invald file specified: ${file}\n"
+    grep -E "^\s*${key}\s+.*;.*$" "$file" > /dev/null || trap.die "Pattern '$key' not found in: ${file}\n"
+
+    term.log "    updating '$file' with '${key} ${val};'\n" 'white'
+    # apply update
+    sed -Ei "s|^\s*${key}\s+.*;.*$|${key} ${val};|" "$file"
+}
+export -f nginx.updateConfig

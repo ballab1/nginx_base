@@ -1,6 +1,0 @@
-#!/bin/bash
-
-chown "${www['user']}":"${www['group']}" -R /var/nginx/client_body_temp
-chown "${www['user']}":"${www['group']}" -R /var/log 
-
-chmod 744 /etc/nginx/dump-config.sh
