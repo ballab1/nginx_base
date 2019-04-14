@@ -25,6 +25,7 @@ services:
                 container.git.url: $CONTAINER_GIT_URL
                 container.origin: $CONTAINER_ORIGIN
                 container.original.name: nginx-base
+                container.parent: $CONTAINER_PARENT
                 version.cbf: $CBF_VERSION
         container_name: nginx-base
         environment:
