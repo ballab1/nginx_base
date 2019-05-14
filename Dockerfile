@@ -17,7 +17,7 @@ ARG NGINX_DEBUG=1
 
 
 # nginx version being bundled in this docker image
-ARG NGINX_VERSION=1.14.2
+ARG NGINX_VERSION=1.16.0
 LABEL version.nginx=$NGINX_VERSION
 
 
