@@ -14,16 +14,18 @@ chmod a+rx /var/lib/nginx/html
 chmod a+rx /var/lib/nginx
 chmod a+rx /var/lib
 
-if [ -f /var/log/.nginx.debug ] &&  [ "$(which nginx-debug)" ] ; then
-    declare __file=/etc/supervisor.d/nginx.ini
-    term.log "    updating '${__file}' to run DEBUG version of 'nginx'\n" 'white'
-    sed -Ei \
-        -e "s|^command=nginx.*$|command=nginx-debug -c /etc/nginx/nginx.conf|" \
-           "$__file"
+# nginx:  permit runtime config based on
+if [ "${NGINX_DEBUG:-0}" -ne 0 ] || [ -f /var/log/.nginx.debug ]; then
+    if [ -d /usr/lib/nginx/modules.nodebug ]; then
+        term.log '    running DEBUG version of nginx\n'
+        rm /usr/lib/nginx/modules
+        ln -s /usr/lib/nginx/modules.debug /usr/lib/nginx/modules
+    else
+        term.log "    no DEBUG version of 'nginx'\n" 'warn'
+    fi
 
-    __file=/etc/nginx/nginx.conf
-    term.log "    updating '${__file}' to log DEBUG information\n" 'white'
-    sed -Ei \
-        -e "s|^error_log\s+.*$|error_log /var/log/nginx_error.log debug;|" \
-           "$__file"
+    # add "error_log /var/log/nginx_error.log debug;"  to nginx.conf
+    declare  __file=/etc/nginx/nginx.conf
+    term.log "    updating '${__file}' to log DEBUG information"'\n' 'white'
+    sed -Ei -e "s|^error_log\s+.*$|error_log /var/log/nginx_error.log debug;|" "$__file"
 fi

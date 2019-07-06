@@ -3,6 +3,7 @@ server {
 
     # Make site accessible from http://localhost/
     server_name default;
+    underscores_in_headers on;
 
     include conf.d/default.application;
 

@@ -5,7 +5,7 @@ function nginx.UID()
 {
     local -r user_name="${1:-nginx}"
     local -r default_uid=${2:-1001}
-    
+
     lib.lookupId "$user_name" 'passwd' "$default_uid"
 }
 export -f nginx.UID
@@ -15,10 +15,10 @@ function nginx.GID()
 {
     local -r group_name="${1:-nginx}"
     local -r default_gid=${2:-1001}
-    
+
     lib.lookupId "$group_name" 'group' "$default_gid"
 }
-export -f nginx.GID 
+export -f nginx.GID
 
 #############################################################################
 function nginx.setHtPasswd
@@ -27,27 +27,30 @@ function nginx.setHtPasswd
     local -r pwd="${2:?}"
 
     local __file=/etc/nginx/conf.d/default.listener
-    term.log "    updating '${__file}' to require authentication\n" 'white' 
+    term.log "    updating '${__file}' to require authentication\n" 'white'
 
     local __pwdfile="/etc/nginx/htpasswd.users"
 
-    cat << EOF >> "$__file"
-    auth_basic "Nginx Restricted Access";
-    auth_basic_user_file $__pwdfile;
-EOF
     echo "$pwd" | htpasswd -c "$__pwdfile" "$user"
     [ ! -e "$__pwdfile" ] || chmod 444 "$__pwdfile"
+
+    grep -Eqs '^\s*auth_basic' "$__file" && return 0
+
+    cat << EOF >> "$__file"
+auth_basic "Nginx Restricted Access";
+auth_basic_user_file $__pwdfile;
+EOF
 }
-export -f nginx.setHtPasswd 
+export -f nginx.setHtPasswd
 
 #############################################################################
 function nginx.updateConfig()
 {
-    local -r key="${1:?"Input parameter 'key' must be passed to 'function ${FUNCNAME[0]}()'"}" 
-    local -r val="${2:?"Input parameter 'val' must be passed to 'function ${FUNCNAME[0]}()'"}" 
-    local file="${3:?"Input parameter 'file' must be passed to 'function ${FUNCNAME[0]}()'"}" 
+    local -r key="${1:?"Input parameter 'key' must be passed to 'function ${FUNCNAME[0]}()'"}"
+    local -r val="${2:?"Input parameter 'val' must be passed to 'function ${FUNCNAME[0]}()'"}"
+    local file="${3:?"Input parameter 'file' must be passed to 'function ${FUNCNAME[0]}()'"}"
 
-    # check that we can apply update    
+    # check that we can apply update
     [ -e "$file" ] || file="/etc/nginx/conf.d/$file"
     [ -e "$file" ] || trap.die "Invald file specified: ${file}\n"
     grep -E "^\s*${key}\s+.*;.*$" "$file" > /dev/null || trap.die "Pattern '$key' not found in: ${file}\n"
