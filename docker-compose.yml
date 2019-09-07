@@ -10,7 +10,7 @@ services:
                 CONTAINER_NAME: nginx-base
                 FROM_BASE: ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/supervisord:${BASE_TAG:-latest}
                 NGINX_DEBUG: 1
-                NGINX_VERSION: ${NGINX_VERSION:-1.14.2}
+                NGINX_VERSION: ${NGINX_VERSION:-1.16.1}
             cache_from:
                 - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}:${OS_VERSION:-3.8}
                 - ${DOCKER_REGISTRY:-ubuntu-s2:5000/}${CONTAINER_OS:-alpine}/base_container:${BASE_TAG:-latest}
