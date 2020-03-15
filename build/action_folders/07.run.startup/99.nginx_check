@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# check nginx configuration
+[ -z "$(nginx -tq)" ] || term.log 'a configuration issue was detected with the nginx\n'
