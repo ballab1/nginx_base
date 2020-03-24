@@ -15,3 +15,5 @@ NGINX['sha256_1.15.6']="a3d8c67c2035808c7c0d475fffe263db8c353b11521aa7ade468b780
 NGINX['sha256_1.16.0']="4fd376bad78797e7f18094a00f0f1088259326436b537eb5af69b01be2ca1345"
 NGINX['sha256_1.16.1']="f11c2a6dd1d3515736f0324857957db2de98be862461b5a542a3ac6188dbe32b"
 NGINX['sha256']="${NGINX['sha256_'${NGINX['version']}]}"
+NGINX['etc']='/etc/nginx'
+NGINX['www']='/var/www'
